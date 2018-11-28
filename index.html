@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <title>
+            Book Api
+        </title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="main-body">
+            <div class="container">
+            <form id="form">
+            <div class="form-group">
+                <label for="usr">Enter Book Name</label>
+                <input type="search" class="form-control" id="search-text">
+            </div>
+            <div class="search-button">
+                <button onclick="function2();" type="button" id="search-button" class="btn btn-info">Search</button>
+            </div>
+            </form>
+        </div>
+            <div id="result">
+            </div> 
+        <script>
+         function function2(){
+             var result = document.getElementById('search-text').value;
+             $.ajax({
+                url: "https://www.googleapis.com/books/v1/volumes?q="+result,
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: handleResponse
+            });
+            function handleResponse(res){
+                $.each(res.items,function(i,item){
+                    var title = item.volumeInfo.title,
+                        author = item.volumeInfo.authors[0],
+                        thumb = item.volumeInfo.imageLinks.thumbnail;
+                    var elTitle = $('<h3 class="title"></h3>').html(title),
+                    elAuthor = $('<h4 class="author"></h4>').html(author),
+                    elThumb = $('<img src="" alt="" class="thumbnail">').attr('src', thumb);
+                    $('#result').append(elTitle, elAuthor, elThumb);
+            })
+            } 
+           }
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </body>
+</html>
