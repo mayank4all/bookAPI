@@ -32,6 +32,7 @@
                 success: handleResponse
             });
             function handleResponse(res){
+                $('#result').html("");
                 $.each(res.items,function(i,item){
                     var title = item.volumeInfo.title,
                         author = item.volumeInfo.authors[0],
